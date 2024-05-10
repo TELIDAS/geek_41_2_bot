@@ -20,7 +20,7 @@ router = Router()
 
 
 @router.callback_query(lambda call: call.data == "my_profile")
-async def random_profiles_call(call: types.CallbackQuery,
+async def my_profile_call(call: types.CallbackQuery,
                                db=AsyncDatabase()):
     profile = await db.execute_query(
         query=sql_queries.SELECT_PROFILE_QUERY,
@@ -30,13 +30,19 @@ async def random_profiles_call(call: types.CallbackQuery,
         fetch='one'
     )
     print(profile)
-    photo = types.FSInputFile(profile["PHOTO"])
-    await bot.send_photo(
-        chat_id=call.from_user.id,
-        photo=photo,
-        caption=PROFILE_TEXT.format(
-            nickname=profile['NICKNAME'],
-            bio=profile['BIO'],
-        ),
-        reply_markup=await my_profile_keyboard()
-    )
+    if profile:
+        photo = types.FSInputFile(profile["PHOTO"])
+        await bot.send_photo(
+            chat_id=call.from_user.id,
+            photo=photo,
+            caption=PROFILE_TEXT.format(
+                nickname=profile['NICKNAME'],
+                bio=profile['BIO'],
+            ),
+            reply_markup=await my_profile_keyboard()
+        )
+    else:
+        await bot.send_message(
+            chat_id=call.from_user.id,
+            text="U have not registered ‼️"
+        )
