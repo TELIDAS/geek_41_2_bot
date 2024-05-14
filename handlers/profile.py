@@ -21,7 +21,7 @@ router = Router()
 
 @router.callback_query(lambda call: call.data == "my_profile")
 async def my_profile_call(call: types.CallbackQuery,
-                               db=AsyncDatabase()):
+                          db=AsyncDatabase()):
     profile = await db.execute_query(
         query=sql_queries.SELECT_PROFILE_QUERY,
         params=(

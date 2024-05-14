@@ -1,3 +1,4 @@
+import random
 import sqlite3
 
 from aiogram import Router, types

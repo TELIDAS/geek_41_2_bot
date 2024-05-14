@@ -4,3 +4,5 @@ START_MENU_TEXT = 'Hello {user}\n' \
 
 PROFILE_TEXT = 'Nickname: {nickname}\n' \
                'Bio: {bio}'
+
+
