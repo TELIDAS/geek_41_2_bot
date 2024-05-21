@@ -7,7 +7,7 @@ from parsel import Selector
 # pip install lxml==4.9.4
 
 class NewsScraper:
-    URL = "https://www.prnewswire.com/news-releases/news-releases-list/"
+    URL = "https://animestars.org/"
     HEADERS = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Language": "en-GB,en;q=0.5",
@@ -19,7 +19,7 @@ class NewsScraper:
     DATE_XPATH = '//div[@class="col-sm-8 col-lg-9 pull-left card"]/h3/small/text()'
     IMAGE_XPATH = '//div[@class="row newsCards"]//img/@src'
     TITLE_XPATH = '//div[@class="col-sm-8 col-lg-9 pull-left card"]/h3/text()'
-    LINK_XPATH = '//a[@class="newsreleaseconsolidatelink display-outline w-100"]/@href'
+    LINK_XPATH = '//img[@class="lazy-loaded"]/@data-src'
 
     def scrape_data(self):
         response = requests.get(self.URL, headers=self.HEADERS)
@@ -30,6 +30,7 @@ class NewsScraper:
         dates = tree.xpath(self.DATE_XPATH).getall()
         descriptions = tree.xpath(self.DESCRIPTION_XPATH).getall()
         links = tree.xpath(self.LINK_XPATH).getall()
+        print(links)
         return links[:5]
         # for description in descriptions:
         #     print(description)
